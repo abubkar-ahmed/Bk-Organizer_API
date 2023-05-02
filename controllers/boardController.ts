@@ -241,32 +241,35 @@ const deleteBoard = async (req:Request , res : Response) => {
 
             const result = await board.save();
 
-            boards : result.boards.map((e:BoardInterface) => {
-                return {
-                    id : e._id,
-                    name : e.name,
-                    columns : e.columns.map((h:Column) => {
-                        return {
-                            id : h._id,
-                            colName : h.colName,
-                            tasks : h.tasks?.map((j:Task) => {
-                                return {
-                                    id : j._id,
-                                    title: j.title,
-                                    desc : j.desc,
-                                    subTasks : j.subTasks.map((s:SubTask) => {
-                                        return {
-                                            id : s._id,
-                                            status : s.status,
-                                            title:s.title
-                                        }
-                                    })
-                                }
-                            })
-                        }
-                    })
-                }
-            })
+            
+            return {
+                boards : result.boards.map((e:BoardInterface) => {
+                    return {
+                        id : e._id,
+                        name : e.name,
+                        columns : e.columns.map((h:Column) => {
+                            return {
+                                id : h._id,
+                                colName : h.colName,
+                                tasks : h.tasks?.map((j:Task) => {
+                                    return {
+                                        id : j._id,
+                                        title: j.title,
+                                        desc : j.desc,
+                                        subTasks : j.subTasks.map((s:SubTask) => {
+                                            return {
+                                                id : s._id,
+                                                status : s.status,
+                                                title:s.title
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    }
+                }) 
+            }
         }catch(err){
             console.log(err);
             return res.sendStatus(500)
